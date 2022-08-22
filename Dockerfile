@@ -1,21 +1,26 @@
 FROM ich777/novnc-baseimage
 
 LABEL org.opencontainers.image.authors="admin@minenet.at"
-LABEL org.opencontainers.image.source="https://github.com/ich777/docker-chrome"
+LABEL org.opencontainers.image.source="https://github.com/eddyz1122/docker-discord"
 
 RUN export TZ=Europe/Rome && \
 	apt-get update && \
 	apt-get -y install --no-install-recommends chromium fonts-takao fonts-arphic-uming libgtk-3-0 && \
+	mkdir /discord \
+	cd /discord
+	wget https://dl.discordapp.net/apps/linux/0.0.19/discord-0.0.19.tar.gz
+	tar -xf discord-0.0.19.tar.gz
+	cd /discord/Discord
 	ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
 	echo $TZ > /etc/timezone && \
 	echo "ko_KR.UTF-8 UTF-8" >> /etc/locale.gen && \ 
 	echo "ja_JP.UTF-8 UTF-8" >> /etc/locale.gen && \
 	locale-gen && \
 	rm -rf /var/lib/apt/lists/* && \
-	sed -i '/    document.title =/c\    document.title = "Chromium - noVNC";' /usr/share/novnc/app/ui.js && \
+	sed -i '/    document.title =/c\    document.title = "Discord - noVNC";' /usr/share/novnc/app/ui.js && \
 	rm /usr/share/novnc/app/images/icons/*
 
-ENV DATA_DIR=/chrome
+ENV DATA_DIR=/Discord
 ENV CUSTOM_RES_W=1024
 ENV CUSTOM_RES_H=768
 ENV CUSTOM_DEPTH=16
@@ -26,7 +31,7 @@ ENV UMASK=000
 ENV UID=99
 ENV GID=100
 ENV DATA_PERM=770
-ENV USER="chrome"
+ENV USER="discord"
 
 RUN mkdir $DATA_DIR && \
 	useradd -d $DATA_DIR -s /bin/bash $USER && \
