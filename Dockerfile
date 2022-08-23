@@ -10,7 +10,6 @@ RUN export TZ=Europe/Rome && \
 	cd /discord
 	wget https://dl.discordapp.net/apps/linux/0.0.19/discord-0.0.19.tar.gz
 	tar -xf discord-0.0.19.tar.gz
-	cd /discord/Discord
 	ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
 	echo $TZ > /etc/timezone && \
 	echo "ko_KR.UTF-8 UTF-8" >> /etc/locale.gen && \ 
@@ -20,9 +19,9 @@ RUN export TZ=Europe/Rome && \
 	sed -i '/    document.title =/c\    document.title = "Discord - noVNC";' /usr/share/novnc/app/ui.js && \
 	rm /usr/share/novnc/app/images/icons/*
 
-ENV DATA_DIR=/Discord
-ENV CUSTOM_RES_W=1024
-ENV CUSTOM_RES_H=768
+ENV DATA_DIR=/discord-data
+ENV CUSTOM_RES_W=1280
+ENV CUSTOM_RES_H=720
 ENV CUSTOM_DEPTH=16
 ENV NOVNC_PORT=8080
 ENV RFB_PORT=5900
